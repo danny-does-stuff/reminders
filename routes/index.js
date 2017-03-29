@@ -7,25 +7,22 @@ router.get('/', function(req, res, next) {
   res.render('index.html', { root: 'public' });
 });
 
-router.get('/test', function(req, res, next) {
-	res.end('Hello there');
-})
-
-// module.exports = router;
-
 module.exports = function(io) {
 	io.on('connection', function(socket) {
+		socket.username = 'Danny';
 		console.log('user connected');
+		mongo.addReminder({user: 'Danny', text: 'This is a test reminder', time: new Date('2017-04-10').toISOString()});
 
 		socket.on('new reminder', function(reminder) {
 			mongo.addReminder(reminder);
 		});
 
 		setInterval(function() {
-			var username = 'Danny';
-			mongo.getActiveReminders(username, function(reminders) {
-				socket.emit('reminder time', reminders);
-			})
+			if (socket.username) {
+				mongo.getActiveReminders(socket.username, function(reminders) {
+					socket.emit('reminder time', reminders);
+				});
+			}
 		}, 1000);
 	});
 
