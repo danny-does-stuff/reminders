@@ -18,6 +18,6 @@ function getActiveReminders(username, cb) {
 }
 
 module.exports = {
-	addReminder: add   
+	addReminder: add,   
 	getActiveReminders: getActiveReminders
 }

@@ -2,10 +2,33 @@
 <html>
 <head>
 	<title>My Page</title>
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.19/angular.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="angularApp.js"></script>
 </head>
-<body>
-This is the page
+
+<body ng-app="reminder" ng-controller="MainCtrl">
+
+	<div class="input-group">
+		<label for="username">Username: </label>
+	  <input type="text" class="form-control" id="username" ng-model="username"></input>
+	</div>
+
+	<div>
+		Remind me to
+		<input type="text" ng-model="todo" placeholder="your to-do item"></input>
+		in
+		<select mg-model="timeUnit">
+			<option ng-repeat="unit in timeUnits">
+				{{unit}}
+			</option>
+		</select>
+
+	</div>
+
 </body>
+
+
 <script src="/socket.io/socket.io.js"></script>
 <script type="text/javascript">
 	console.log('starting');
