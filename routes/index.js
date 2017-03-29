@@ -14,6 +14,9 @@ module.exports = function(io) {
 
 	io.on('connection', function(socket) {
 		console.log('user connected');
+
+		var data = {message: 'hey there'};
+		socket.emit('reminder', data);
 	});
 
 	return router;

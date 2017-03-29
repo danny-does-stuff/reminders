@@ -10,5 +10,9 @@ This is the page
 <script type="text/javascript">
 	console.log('starting');
 	var socket = io();
+
+	socket.on('reminder', function(reminder) {
+		console.log(reminder);
+	});
 </script>
 </html>
