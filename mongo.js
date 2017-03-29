@@ -4,20 +4,24 @@ require('./models/Reminders');
 var Reminder = mongoose.model('Reminder');
 
 function add(reminder) {
-	var reminder = new Comment(req.body);
+	console.log('adding reminder ' + reminder);
+	var reminder = new Reminder(reminder);
 	reminder.save(function(err, reminder) {
 		if(err) {
+			console.log(err);
 			return next(err);
 		}
-		res.json(reminder);
+		return reminder;
 	});
 }
 
 function getActiveReminders(username, cb) {
-	Reminder.find({user: username, time: { $lt: new Date().toISOString() }})
+	Reminder.find({user: username, time: { $lt: new Date().toISOString() }}, function(err, reminders) {
+		console.log(reminders);
+	});
 }
 
 module.exports = {
-	addReminder: add   
+	addReminder: add,
 	getActiveReminders: getActiveReminders
 }
