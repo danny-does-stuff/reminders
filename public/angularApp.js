@@ -30,15 +30,14 @@ angular.module('reminder', [])
   });
 
   socket.on('add reminder response', function(response) {
-  	if (response.success) {
-  		$scope.$apply(function() {
-		    $scope.newReminder.todo = '';
-		    $scope.newReminder.time = '';
-	  	});
-  	}
   	$scope.$apply(function() {
-  		$scope.alerts.push(response.message);
-  	});
+	  	if (response.success) {
+			    $scope.newReminder.todo = '';
+			    $scope.newReminder.time = '';
+	  	}
+	  	
+	  	$scope.alerts.push(response.message);
+	});
 
   });
 
