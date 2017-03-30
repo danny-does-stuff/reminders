@@ -57,7 +57,7 @@ angular.module('reminder', [])
 
   $scope.addReminder = function (reminder) {
     socket.emit('add reminder', {
-    	user: reminder.username,
+    	user: $scope.username,
     	text: reminder.todo,
     	time: dateAdd(new Date(), reminder.timeUnit, reminder.time).toISOString()
     });

@@ -4,18 +4,27 @@
 	<title>My Page</title>
 	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.19/angular.min.js"></script>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="stylesheets/style.css">
-	<!-- <link rel="stylesheet" type="text/css" href="style.css"> -->
+	<!-- <link rel="stylesheet" type="text/css" href="stylesheets/style.css"> -->
+	<link rel="stylesheet" type="text/css" href="style.css">
 	<script src="/socket.io/socket.io.js"></script>
 	<script src="angularApp.js"></script>
 </head>
 
 <body ng-app="reminder" ng-controller="MainCtrl">
+	<div class="col-lg-4 center-block">
+    <div class="input-group">
+			<input type="text" class="form-control" ng-model="username" placeholder="Put your name here" size="30"></input>
+      <span class="input-group-btn">
+				<button class="btn btn-primary" type="button">Register</button>
+      </span>
+    </div><!-- /input-group -->
+  </div><!-- /.col-lg-6 -->
+
+
 
 
 
 	<form class="form-inline" name="newReminder" ng-submit="addReminder(newReminder)">
-		<input type="text" class="form-control" ng-model="newReminder.username" placeholder="Put your name here"></input> says:
 		Remind me to
 		<input type="text" class="form-control" ng-model="newReminder.todo" placeholder="your to-do item"></input>
 		in
