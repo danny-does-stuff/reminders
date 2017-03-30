@@ -1,7 +1,5 @@
 angular.module('reminder', [])
 .controller('MainCtrl', ['$scope','$http', '$timeout', function($scope, $http, $timeout) {
-  $scope.timeUnits = ['second', 'minute', 'hour', 'day', 'week', 'month', 'year'];
-  $scope.alerts = [];
 
   /*********************
 	SOCKET LISTENERS
@@ -25,20 +23,29 @@ angular.module('reminder', [])
 
   socket.on('logged in', function(message) {
   	$scope.$apply(function() {
-  		$scope.alerts.push(message);
+  		$scope.notice = message;
+  		$scope.showNotice = true;
+
+	  	$timeout(function() {
+	  		$scope.showNotice = false;
+	  	}, 3000);
   	});
   });
 
   socket.on('add reminder response', function(response) {
   	$scope.$apply(function() {
 	  	if (response.success) {
-			    $scope.newReminder.todo = '';
-			    $scope.newReminder.time = '';
+			$scope.newReminder.todo = '';
+			$scope.newReminder.time = '';
 	  	}
 	  	
-	  	$scope.alerts.push(response.message);
-	});
+	  	$scope.notice = response.message;
+	  	$scope.showNotice = true;
 
+	  	$timeout(function() {
+	  		$scope.showNotice = false;
+	  	}, 3000);
+	});
   });
 
 
@@ -46,6 +53,9 @@ angular.module('reminder', [])
 	 NON SOCKET STUFF
   *********************/
 
+  $scope.timeUnits = ['second', 'minute', 'hour', 'day', 'week', 'month', 'year'];
+  $scope.notice = '';
+  $scope.showNotice = false;
 
   $scope.login = function() {
   	socket.emit('login', $scope.username);

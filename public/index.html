@@ -13,7 +13,7 @@
 <body ng-app="reminder" ng-controller="MainCtrl">
 	<div class="col-lg-4 center-block">
 		<div class="input-group">
-			<input type="text" class="form-control" ng-model="username" placeholder="Username" size="30"></input>
+			<input type="text" class="form-control" ng-keyup="$event.keyCode == 13 ? login() : null" ng-model="username" placeholder="Username" size="30"></input>
 			<span class="input-group-btn">
 				<button class="btn btn-primary" type="button" ng-click="login()">Register</button>
 			</span>
@@ -26,21 +26,15 @@
 		in
 		<input type"text" class="form-control" ng-model="newReminder.time" placeholder="5" size="5"></input>
 
-		<select class="form-control" ng-model="newReminder.timeUnit" ng-options="unit for unit in timeUnits">
-			<!-- <option ng-repeat="unit in timeUnits" ng-selected="{{unit == 'minute'}}" value="{{unit}}">
+		<select class="form-control" ng-model="newReminder.timeUnit">
+			<option ng-repeat="unit in timeUnits" ng-selected="{{unit == 'minute'}}" value="{{unit}}">
 				{{unit}}(s)
-			</option> -->
+			</option>
 		</select>
 		<button class="btn btn-primary" type='submit'>Add a reminder</button>
 	</form>
 
-	<div class="notices">
-		<div ng-repeat="alert in alerts">{{alert}}</div>
-	</div>
-
+	<div id="notice" ng-show="showNotice">{{notice}}</div>
 
 </body>
-
-
-
 </html>
