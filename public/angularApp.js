@@ -1,9 +1,37 @@
 angular.module('reminder', [])
-.controller('MainCtrl', ['$scope','$http', function($scope,$http){
+.controller('MainCtrl', ['$scope','$http', function($scope,$http) {
 
-  $scope.timeUnits = ['minute', 'hour', 'day', 'week'];
+  /*********************
+	SOCKET LISTENERS
+  *********************/
+  var socket = io();
+
+  socket.on('reminder time', function(reminders) {
+    console.log(reminders);
+    var text;
+  	if (reminders.length == 1) {
+  		var reminder = reminders[0];
+  		text = `Reminder for ${reminder.user}:\n\n${reminder.text}`;
+  	} else {
+		text = `Some reminders for ${reminders[0].user}:\n\n`;
+		reminders.forEach((reminder) => {
+			text += `${reminder.text}\n`;
+		});
+  	}
+  	alert(text)
+  });
+
+  socket.on('add reminder succeeded', function() {
+  	$scope.notice = 'Reminder added!';
+  });
+
+
+
+
+  $scope.timeUnits = ['second', 'minute', 'hour', 'day', 'week'];
   $scope.notice = '';
 
+//I don't think we need this
   Date.prototype.yyyymmdd = function() {
     var mm = this.getMonth() + 1; // getMonth() is zero-based
     var dd = this.getDate();
@@ -19,19 +47,15 @@ angular.module('reminder', [])
             (ss>9 ? '' : '0') + ss].join(':');
   };
 
-  var date = new Date();
-
   $scope.addReminder = function (reminder) {
+    socket.emit('add reminder', {
+    	user: reminder.username,
+    	text: reminder.todo,
+    	time: dateAdd(new Date(), reminder.timeUnit, reminder.time).toISOString()
+    });
 
-    console.log('what: ', dateAdd(date.yyyymmdd(), reminder.timeUnit, reminder.time));
-
-    reminder.username = '';
     reminder.todo = '';
     reminder.time = '';
-    reminder.timeUnit = '';
-
-    //if call succeeded,
-    $scope.notice = 'Reminder added!';
   };
 
   /**

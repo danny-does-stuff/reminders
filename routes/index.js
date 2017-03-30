@@ -11,18 +11,28 @@ module.exports = function(io) {
 	io.on('connection', function(socket) {
 		socket.username = 'Danny';
 		console.log('user connected');
-		mongo.addReminder({user: 'Danny', text: 'This is a test reminder', time: new Date('2017-04-10').toISOString()});
+		// mongo.addReminder({user: 'Danny', text: 'This is a test reminder', time: new Date('2017-04-10').toISOString()});
 
-		socket.on('new reminder', function(reminder) {
+		socket.on('add reminder', function(reminder) {
+			console.log('got from client');
 			mongo.addReminder(reminder);
+			socket.emit('add reminder succeeded');
 		});
 
 		setInterval(function() {
-			if (socket.username) {
-				mongo.getActiveReminders(socket.username, function(reminders) {
-					socket.emit('reminder time', reminders);
-				});
+			if (!socket.username) {
+				return
 			}
+			mongo.getActiveReminders(socket.username, function(err, reminders) {
+				if (err) {
+					console.log(err);
+				} else {
+					if (reminders.length > 0) {
+						console.log('reminders comin', reminders);
+						socket.emit('reminder time', reminders);
+					}
+				}
+			});
 		}, 1000);
 	});
 

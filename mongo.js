@@ -16,8 +16,16 @@ function add(reminder) {
 }
 
 function getActiveReminders(username, cb) {
-	Reminder.find({user: username, time: { $lt: new Date().toISOString() }}, function(err, reminders) {
-		console.log(reminders);
+	var query = {user: username, time: { $lt: new Date().toISOString() }};
+	Reminder.find(query, function(err, reminders) {
+		if (err) {
+			cb(err);
+		} else {
+			cb(null, reminders);
+			reminders.forEach((reminder) => {
+				reminder.remove();
+			});
+		}
 	});
 }
 

@@ -6,6 +6,7 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="stylesheets/style.css">
 	<!-- <link rel="stylesheet" type="text/css" href="style.css"> -->
+	<script src="/socket.io/socket.io.js"></script>
 	<script src="angularApp.js"></script>
 </head>
 
@@ -21,13 +22,9 @@
 		<input type"text" class="form-control" ng-model="newReminder.time" placeholder="time" size="5"></input>
 
 		<select class="form-control" ng-model="newReminder.timeUnit">
-			<!-- <option ng-repeat="unit in timeUnits">
-				{{unit}}
-			</option> -->
-			<option value="minute">minute(s)</option>
-			<option value="hour">hour(s)</option>
-			<option value="day">day(s)</option>
-			<option value="week">week(s)</option>
+			<option ng-repeat="unit in timeUnits" value="{{unit}}">
+				{{unit}}(s)
+			</option>
 		</select>
 		<button class="btn btn-primary" type='submit'>Add a reminder</button>
 	</form>
@@ -38,13 +35,5 @@
 </body>
 
 
-<script src="/socket.io/socket.io.js"></script>
-<script type="text/javascript">
-	console.log('starting');
-	var socket = io();
 
-	socket.on('reminder', function(reminder) {
-		console.log(reminder);
-	});
-</script>
 </html>
