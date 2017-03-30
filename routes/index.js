@@ -34,18 +34,19 @@ return ret;
 
 module.exports = function(io) {
 	io.on('connection', function(socket) {
-		// socket.username = 'Danny';
 		console.log('user connected');
 		// mongo.addReminder({user: 'Danny', text: 'This is a test reminder', time: new Date('2017-04-10').toISOString()});
 
 		socket.on('login', function(username) {
 			socket.username = username;
+			var loginMessage = `user logged in: '${socket.username}'`;
+			console.log(loginMessage);
+			socket.emit('logged in', loginMessage);
 		});
 
 		socket.on('add reminder', function(reminder) {
 			var response = {};
 			if (socket.username) {
-
 				var mongoReminder = {
 					user: socket.username,
 					text: reminder.todo,
