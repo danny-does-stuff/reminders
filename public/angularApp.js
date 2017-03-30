@@ -21,8 +21,12 @@ angular.module('reminder', [])
   	alert(text)
   });
 
-  socket.on('add reminder succeeded', function() {
-  	$scope.notice = 'Reminder added!';
+  socket.on('add reminder response', function(response) {
+  	if (response == 'success') {
+  		$scope.notice = 'Reminder added!';
+  	} else {
+  		$scope.notice = response;
+  	}
   });
 
 
@@ -46,6 +50,10 @@ angular.module('reminder', [])
             (mi>9 ? '' : '0') + mi,
             (ss>9 ? '' : '0') + ss].join(':');
   };
+
+  $scope.login = function(username) {
+  	socket.emit('login', username);
+  }
 
   $scope.addReminder = function (reminder) {
     socket.emit('add reminder', {

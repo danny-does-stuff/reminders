@@ -9,14 +9,22 @@ router.get('/', function(req, res, next) {
 
 module.exports = function(io) {
 	io.on('connection', function(socket) {
-		socket.username = 'Danny';
+		// socket.username = 'Danny';
 		console.log('user connected');
 		// mongo.addReminder({user: 'Danny', text: 'This is a test reminder', time: new Date('2017-04-10').toISOString()});
 
+		socket.on('login', function(username) {
+			socket.username = username;
+		});
+
 		socket.on('add reminder', function(reminder) {
-			console.log('got from client');
-			mongo.addReminder(reminder);
-			socket.emit('add reminder succeeded');
+			if (socket.username) {
+				mongo.addReminder(reminder);
+				var response = 'success';
+			} else {
+				var response = 'must be signed in to add reminder';
+			}
+			socket.emit('add reminder response', response);
 		});
 
 		setInterval(function() {
