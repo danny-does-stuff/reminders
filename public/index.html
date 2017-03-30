@@ -4,27 +4,36 @@
 	<title>My Page</title>
 	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.19/angular.min.js"></script>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="stylesheets/style.css">
+	<!-- <link rel="stylesheet" type="text/css" href="style.css"> -->
 	<script src="angularApp.js"></script>
 </head>
 
 <body ng-app="reminder" ng-controller="MainCtrl">
 
-	<div class="input-group">
-		<label for="username">Username: </label>
-	  <input type="text" class="form-control" id="username" ng-model="username"></input>
-	</div>
 
-	<div>
+
+	<form class="form-inline" name="newReminder" ng-submit="addReminder(newReminder)">
+		<input type="text" class="form-control" ng-model="newReminder.username" placeholder="Put your name here"></input> says:
 		Remind me to
-		<input type="text" ng-model="todo" placeholder="your to-do item"></input>
+		<input type="text" class="form-control" ng-model="newReminder.todo" placeholder="your to-do item"></input>
 		in
-		<select mg-model="timeUnit">
-			<option ng-repeat="unit in timeUnits">
-				{{unit}}
-			</option>
-		</select>
+		<input type"text" class="form-control" ng-model="newReminder.time" placeholder="time" size="5"></input>
 
-	</div>
+		<select class="form-control" ng-model="newReminder.timeUnit">
+			<!-- <option ng-repeat="unit in timeUnits">
+				{{unit}}
+			</option> -->
+			<option value="minute">minute(s)</option>
+			<option value="hour">hour(s)</option>
+			<option value="day">day(s)</option>
+			<option value="week">week(s)</option>
+		</select>
+		<button class="btn btn-primary" type='submit'>Add a reminder</button>
+	</form>
+
+	<div class="notice">{{notice}}</div>
+
 
 </body>
 
